@@ -16,4 +16,18 @@ servidor.post("sign-up", (require, response) => {
     response.send("OK");
 })
 
+
+
+
+
+
+
+
+
+
+
 servidor.listen(5000, () => console.log(`Rodando na porta de número 5000...`))
+
+
+
+
