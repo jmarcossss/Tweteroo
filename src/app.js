@@ -53,4 +53,4 @@ servidor.get("/tweets", (require, response) => {
     response.send(tweetsArmazenados);
 })
 
-servidor.listen(PORTA, () => console.log(`Rodando na porta número ${PORTA}`))
+servidor.listen(PORTA, () => console.log(`Rodando na porta número ${PORTA}...`))
