@@ -1,16 +1,17 @@
 import express from "express";
 import cors from 'cors';
 
+let i = 0
 const servidor = express()
+const PORTA = 5000
 const array_de_usuarios = []
 const array_de_tweets = []
 servidor.use(express.json())
 servidor.use(cors())
 
-// Preciss fazer 2 posts e 1 get
-
+// Preciso fazer 2 posts e 1 get
 // O primeiro post é para conseguir solicitar dados do login no meu servidor
-// Fiz de forma bastante semlelhante ao exercício da semana
+// Fiz de forma bastante semelhante ao exercício da semana
 servidor.post("/sign-up", (require, response) => {
     const novoUsuario = require.body
     const {username, avatar} = require.body
@@ -22,7 +23,7 @@ servidor.post("/sign-up", (require, response) => {
 servidor.post("/tweets", (require, response) => {
     const { username, tweet} = require.body
     const tweetDoUsuario = { username, tweet }
-    if (username == false || tweet == false) {
+    if(username == false || tweet == false) {
       response.send("UNAUTHORIZED")
       return
     }
@@ -30,4 +31,26 @@ servidor.post("/tweets", (require, response) => {
     response.send("OK")
 })
 
-servidor.listen(5000, () => console.log(`Running on port 5000`))
+// O get serve para pegar os dados lá do servidor e fazer uma requisição dos mesmos
+servidor.get("/tweets", (require, response) => {
+    const tweetsArmazenados = [];
+    for(i = 10; i > 0; i--) {
+      const valor_array_de_tweets = array_de_tweets[array_de_tweets.length - i];
+      // Se o valor do array de tweets que o servidor tem for nulo ou undefined
+      // quer dizer que não existe tweets no servidor ainda
+      // se for um vlor diferente disso é porque existe tweets no servidor
+      if(valor_array_de_tweets !== null && valor_array_de_tweets !== undefined) {
+        const urlDoUsuario = array_de_usuarios.find
+        (valor => valor.username === valor_array_de_tweets.username);
+        const novo_array_de_tweets = {
+            username: valor_array_de_tweets.username,
+            avatar: urlDoUsuario.avatar,
+            tweet: valor_array_de_tweets.tweet
+        }
+        tweetsArmazenados.push(novo_array_de_tweets);
+      }
+    }
+    response.send(tweetsArmazenados);
+})
+
+servidor.listen(PORTA, () => console.log(`Rodando na porta número ${PORTA}`))
